@@ -25,6 +25,14 @@ const fetchPairData = async () => {
   const pairContract = new Contract(pairAddress, PAIR_ABI, provider);
   const [reserves0, reserves1] = await pairContract.getReserves();
 
+  // convert to big number
+  const reservers0big = new Big(reserves0.toString());
+  const reservers1big = new Big(reserves1.toString());
+
+  // calculate rate
+  const priceToken0 = reservers1big.div(reservers0big);
+  const priceToken1 = reservers0big.div(reservers1big);
+
   // check token0 token1 order
   const token0 = await pairContract.token0();
   const tag0 =
@@ -35,14 +43,6 @@ const fetchPairData = async () => {
     token0.toLowerCase() !== TOKEN_0_ADDRESS.toLowerCase()
       ? "Token0:Token1"
       : "Token1:Token0";
-
-  // convert to big number
-  const reservers0big = new Big(reserves0.toString());
-  const reservers1big = new Big(reserves1.toString());
-
-  // calculate rate
-  const priceToken0 = reservers1big.div(reservers0big);
-  const priceToken1 = reservers0big.div(reservers1big);
 
   console.log(`Price (${tag0}):`, priceToken0.toString());
   console.log(`Price (${tag1}):`, priceToken1.toString());
