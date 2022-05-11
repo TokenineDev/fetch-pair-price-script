@@ -1,0 +1,11 @@
+{
+  "name": "fetch-pair-script",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "big.js": "^6.1.1",
+    "ethers": "^5.6.5"
+  }
+}
